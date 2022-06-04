@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 require('../db/conn.js');
 const User = require('../model/userSchema');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+
+// jwt always used after login to check the autherized user
+const jwt = require('jsonwebtoken');
 
 
 router.get('/', (req, res) => {
@@ -60,6 +63,14 @@ router.post('/signin', async (req, res) => {
         if (userLogin) {
 
             const isMatch = await bcrypt.compare(password,userLogin.password);
+
+            const token = await userLogin.generateAuthToken();
+            console.log(token);
+
+            res.cookie("jwttoken",token,{
+                expires:new Date(Date.now() + 25890000),
+                httpOnly:true
+            });
 
             if(isMatch)
             {
