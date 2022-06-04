@@ -1,7 +1,18 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+const dotenv = require('dotenv');
+
+dotenv.config({path:'./config.env'});
+require('./db/conn');
+
+// made using atlas
+
+const PORT = process.env.PORT;
 
 
+
+// Middleware
 const Middleware = (req,res,next) =>{
     console.log('hello my middleware');
     next();
@@ -28,6 +39,6 @@ app.get('/signup',(req,res) =>{
     res.send('hello singin world from the server');
 })
 
-app.listen(3000,() =>{
-    console.log('server is running at port 3000')
+app.listen(PORT,() =>{
+    console.log(`server is running at port ${PORT}`)
 })
