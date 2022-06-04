@@ -5,6 +5,12 @@ const dotenv = require('dotenv');
 
 dotenv.config({path:'./config.env'});
 require('./db/conn');
+// const User = require('./model/userSchema.js');
+
+app.use(express.json());
+
+// we link the router files to make our route easy
+app.use(require('./router/auth'));
 
 // made using atlas
 
@@ -19,9 +25,6 @@ const Middleware = (req,res,next) =>{
 }
 
 
-app.get('/',(req,res) =>{
-    res.send('hello world from the server')
-});
 
 app.get('/about',Middleware,(req,res) =>{
     res.send('hello about world from the server')
